@@ -25,3 +25,4 @@ Route::get('/searchAddress', function () {
 Route::get('searchAddress', [AddressController::class, 'searchAddress']);
 Route::get('listAddress', [AddressController::class, 'index']);
 Route::post('store-form', [AddressController::class, 'store']);
+Route::post('addressSearch', [AddressController::class, 'addressSearch']);

@@ -21,12 +21,7 @@
         </style>
     </head>
     <body class="antialiased">
-          <button type="submit" href="/searchAddress">Address lookup</button>
-          <button type="submit" href="/add-address-form">Address list</button>
-          <button onclick="window.location.href='searchAddress';">
-      Click Here
-    </button>
-
-          
+          <button onclick="window.location.href='searchAddress';"> Address lookup </button>
+          <button onclick="window.location.href='listAddress';"> Address list </button>
     </body>
 </html>

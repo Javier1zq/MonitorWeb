@@ -24,25 +24,26 @@
     
     <div class="main-block">
       <h1>Address lookup</h1>
-      <form action="/">
+      <form action="addressSearch" method="POST">
+      @csrf
         <hr>
 
         <hr>
-        <label id="icon" for="name"><i class="fas fa-envelope"></i></label>
-        <input type="text" name="name" id="name" placeholder="street" required/>
-        <label id="icon" for="name"><i class="fas fa-user"></i></label>
-        <input type="text" name="name" id="name" placeholder="number" required/>
-        <label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-        <input type="text" name="name" id="name" placeholder="townId" required/>
-        <label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-        <input type="text" name="name" id="name" placeholder="provinceId" required/>
-        <label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-        <input type="text" name="name" id="name" placeholder="type" required/>
+        <label id="icon" for="street"><i class="fas fa-envelope"></i></label>
+        <input type="text" name="street" id="street" placeholder="street" required/>
+        <label id="icon" for="number"><i class="fas fa-user"></i></label>
+        <input type="text" name="number" id="number" placeholder="number" required/>
+        <label id="icon" for="townId"><i class="fas fa-unlock-alt"></i></label>
+        <input type="text" name="townId" id="townId" placeholder="townId" required/>
+        <label id="icon" for="provinceId"><i class="fas fa-unlock-alt"></i></label>
+        <input type="text" name="provinceId" id="provinceId" placeholder="provinceId" required/>
+        <label id="icon" for="type"><i class="fas fa-unlock-alt"></i></label>
+        <input type="text" name="type" id="type" placeholder="type" required/>
         
         <hr>
         <div class="btn-block">
         
-          <button type="submit" href="/index">Submit</button>
+          <button type="submit" >Submit</button>
         </div>
       </form>
     </div>

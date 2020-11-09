@@ -15,8 +15,10 @@ class AddressController extends Controller
         $address=Address::all();
         return view('searchAddress',['addresses'=>$address]);
     }
-    public function addressLookUp(Request $request)
+    public function addressSearch(Request $request)
     {
+        //print_r($request->input());
+
         $address=Address::all();
         $addressAux = new Address;
         $addressAux->street = $request->street;
@@ -25,14 +27,24 @@ class AddressController extends Controller
         $addressAux->provinceId = $request->provinceId;
         $addressAux->type = $request->type;
 
+        
+        $foo = false;
         foreach($address as $list){
-            if($addressAux == $list){
-                return redirect('searchAddress')->with('status', 'Address is found');
+            
+            
+            if($addressAux->street == $list->street && $addressAux->number == $list->number && $addressAux->townId == $list->townId && $addressAux->provinceId == $list->provinceId && $addressAux->type == $list->type){
+                print_r("Found");
+                $foo = true;
+            break;
             }
         }
+        if($foo == false){
+            print_r("Not Found");
+        }
+        
 
-        $address->save();
-        return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');
+        //$address->save();
+        //return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');*/
     }
     /*
     public function store(Request $request)
