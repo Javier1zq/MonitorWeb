@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Models\Address;
 class AddressController extends Controller
 {
@@ -15,6 +16,7 @@ class AddressController extends Controller
         $address=Address::all();
         return view('searchAddress',['addresses'=>$address]);
     }
+
     public function addressSearch(Request $request)
     {
         //print_r($request->input());
@@ -28,17 +30,17 @@ class AddressController extends Controller
         $addressAux->type = $request->type;
 
         
-        $foo = false;
+        $found = false;
         foreach($address as $list){
             
             
             if($addressAux->street == $list->street && $addressAux->number == $list->number && $addressAux->townId == $list->townId && $addressAux->provinceId == $list->provinceId && $addressAux->type == $list->type){
                 print_r("Found");
-                $foo = true;
+                $found = true;
             break;
             }
         }
-        if($foo == false){
+        if($found == false){
             print_r("Not Found");
         }
         
@@ -46,6 +48,19 @@ class AddressController extends Controller
         //$address->save();
         //return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');*/
     }
+    public function searchForm()
+    {
+        $data=null;
+        return view('searchForm',['data'=>$data]);
+    }
+    public function searchFormAction(Request $request)
+    {
+        print_r(urlencode($request->address));
+        $data= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address='.urlencode($request->address))->json();
+
+        return view('searchForm',['data'=>$data]);
+    }
+
     /*
     public function store(Request $request)
     {

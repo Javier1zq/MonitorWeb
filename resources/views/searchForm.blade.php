@@ -21,8 +21,37 @@
         </style>
     </head>
     <body class="antialiased">
-          <button onclick="window.location.href='searchAddress';"> Address lookup local</button>
-          <button onclick="window.location.href='listAddress';"> Address list </button>
-          <button onclick="window.location.href='searchForm';"> Address search API</button>
+    
+    <div class="main-block">
+      <h1>Address lookup</h1>
+      <form action="searchFormAction" method="POST">
+      @csrf
+        <hr>
+
+        <hr>
+        <label id="icon" for="address"><i class="fas fa-envelope"></i></label>
+        <input type="text" name="address" id="address" placeholder="address" required/>
+        
+        
+        <hr>
+        <div class="btn-block">
+        
+          <button type="submit" >Submit</button>
+        </div>
+      </form>
+    </div>
+<ul>
+if (is_array($data) || is_object($data))
+{
+@foreach ($data as $item)
+<li>
+{{$item['label']}}
+</li>
+@endforeach
+}
+</ul>
+
+<!-- {{print_r($data)}} -->
+
     </body>
 </html>

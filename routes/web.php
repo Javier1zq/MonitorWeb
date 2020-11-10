@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use app\Http\Controllers\IndexController;
 use App\Http\Controllers\AddressController;
 /*
@@ -24,5 +25,8 @@ Route::get('/searchAddress', function () {
 
 Route::get('searchAddress', [AddressController::class, 'searchAddress']);
 Route::get('listAddress', [AddressController::class, 'index']);
+Route::get('searchForm', [AddressController::class, 'searchForm']);
+
 Route::post('store-form', [AddressController::class, 'store']);
 Route::post('addressSearch', [AddressController::class, 'addressSearch']);
+Route::post('searchFormAction', [AddressController::class, 'searchFormAction']);

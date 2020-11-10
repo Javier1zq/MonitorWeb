@@ -15,7 +15,7 @@
       <td>street</td>
       <td>number</td>
       <td>townId</td>
-      <td>ProvinceId</td>
+      <td>provinceId</td>
       <td>type</td>
     </tr>
     <br>
@@ -25,7 +25,7 @@
       <td>{{$address['street']}}</td>
       <td>{{$address['number']}}</td>
       <td>{{$address['townId']}}</td>
-      <td>{{$address['ProvinceId']}}</td>
+      <td>{{$address['provinceId']}}</td>
       <td>{{$address['type']}}</td>
     </tr>
     @endforeach 
