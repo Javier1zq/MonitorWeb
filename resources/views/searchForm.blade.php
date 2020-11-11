@@ -40,18 +40,29 @@
         </div>
       </form>
     </div>
-<ul>
-if (is_array($data) || is_object($data))
-{
-@foreach ($data as $item)
-<li>
-{{$item['label']}}
-</li>
-@endforeach
-}
-</ul>
+    <ul>
 
-<!-- {{print_r($data)}} -->
+    @if (!is_null($json))
+    
+        @foreach ($json['data'] as $item)
+        <li>
 
+                {{print_r($item['label'], true)}} 
+
+        </li>
+        @endforeach
+
+    </ul>
+    @endif
+    <br><br><br><br>
+    <select>
+    @if (!is_null($json))
+    
+        @foreach ($json['data'] as $item)
+                <option>{{print_r($item['label'], true)}}</option>
+        @endforeach
+
+    @endif 
+        </select>
     </body>
 </html>

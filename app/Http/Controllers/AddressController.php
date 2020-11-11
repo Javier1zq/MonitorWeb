@@ -50,17 +50,28 @@ class AddressController extends Controller
     }
     public function searchForm()
     {
-        $data=null;
-        return view('searchForm',['data'=>$data]);
+        
+        /*$foo = array('code' => '200'),array('code' => '200');
+        $json = json_encode($myArr);*/
+       // $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="plaza"')->json();
+        //$json= '{}';
+        //$data = $json;
+        $json = null;
+        $data = $json;
+        return view('searchForm',['data'=>$data],['json'=>$json]);
     }
     public function searchFormAction(Request $request)
     {
         print_r(urlencode($request->address));
-        $data= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address='.urlencode($request->address))->json();
+        
+        $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
 
-        return view('searchForm',['data'=>$data]);
+        $data = $json;
+
+        return view('searchForm',['data'=>$data],['json'=>$json]);
     }
 
+    
     /*
     public function store(Request $request)
     {
@@ -76,3 +87,5 @@ class AddressController extends Controller
         return redirect('add-address-form')->with('status', 'Post Form Data Has Been inserted');
     }*/
 }
+
+
