@@ -71,7 +71,31 @@ class AddressController extends Controller
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
 
-    
+    public function confirmAddress(Request $request)
+    {
+        print_r($request->get('type'));
+        print_r($request->number);
+        $json1= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->get('type')).'"')->json();
+        
+        foreach($json1['data'] as $item ){
+            $addressAux = new Address;
+            $addressAux->street = $item['street'];
+            $addressAux->number = $request->number;
+            $addressAux->townId = $item['townId'];
+            $addressAux->provinceId = $item['provinceId'];
+            $addressAux->type = $item['type'];
+            $addressAux->province = $item['province'];
+            $addressAux->town = $item['town'];
+        }
+
+        
+
+        $json= Http::get('https://www.finetwork.com/api/v2/fiber/addresses?street='.$addressAux->street.'&number='.$addressAux->number.'&province='.$addressAux->province.'&town='.$addressAux->town.'&provinceId='.$addressAux->provinceId.'&townId='.$addressAux->townId.'&type='.$addressAux->type)->json();
+        print_r($json);
+        $data = $json;
+        $json=null;
+    return view('searchForm'/*,['data'=>$data]*/,['json'=>$json]);
+    }
     /*
     public function store(Request $request)
     {

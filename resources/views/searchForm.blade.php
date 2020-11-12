@@ -55,14 +55,44 @@
     </ul>
     @endif
     <br><br><br><br>
-    <select>
+    
+    <form method="post" action="confirmAddress" >  
+    @csrf
+    <select name="type">
     @if (!is_null($json))
     
         @foreach ($json['data'] as $item)
-                <option>{{print_r($item['label'], true)}}</option>
+                <option type="text" name="addressChosen" id="{{$item['townId']}}" placeholder="addressChosen" >{{print_r($item['label'], true)}}</option>
         @endforeach
 
     @endif 
         </select>
+
+
+
+
+
+
+
+
+        <label id="icon" for="number"><i class="fas fa-envelope"></i></label>
+        <input type="text" name="number" id="number" placeholder="number" required/>
+  
+        <button type="submit" >Submit</button>
+            </form> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </body>
 </html>

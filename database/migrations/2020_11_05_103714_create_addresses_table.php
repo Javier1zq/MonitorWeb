@@ -20,6 +20,8 @@ class CreateAddressesTable extends Migration
             $table->integer('townId');
             $table->integer('provinceId');
             $table->string('type');
+            $table->integer('province');
+            $table->string('town');
             $table->timestamps();
         });
     }

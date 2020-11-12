@@ -30,3 +30,4 @@ Route::get('searchForm', [AddressController::class, 'searchForm']);
 Route::post('store-form', [AddressController::class, 'store']);
 Route::post('addressSearch', [AddressController::class, 'addressSearch']);
 Route::post('searchFormAction', [AddressController::class, 'searchFormAction']);
+Route::post('confirmAddress', [AddressController::class, 'confirmAddress']);
