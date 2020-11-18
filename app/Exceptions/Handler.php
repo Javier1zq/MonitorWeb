@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Symfony\Component\HttpKernel\Exception;
 class Handler extends ExceptionHandler
 {
     /**
@@ -30,8 +30,11 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(/*$request, Exception $exception*/)
     {
-        //
+       // return response(['error'=>$exception],$exception->getCode() ?: 400);
+       $this->renderable(function (Exception $e, $request) {
+        return response()->json('errors.custom', [], 500);
+    });
     }
 }
