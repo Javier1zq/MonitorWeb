@@ -12,8 +12,10 @@
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^9.0",
-        "laravel/tinker": "^2.5|dev-develop"
+        "laravel/framework": "^8.0",
+        "laravel/passport": "^10.0",
+        "laravel/tinker": "^2.5|dev-develop",
+        "paragonie/random_compat": "2.*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
