@@ -30,11 +30,8 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register(/*$request, Exception $exception*/)
+    public function register()
     {
-       // return response(['error'=>$exception],$exception->getCode() ?: 400);
-       $this->renderable(function (Exception $e, $request) {
-        return response()->json('errors.custom', [], 500);
-    });
+          
     }
 }
