@@ -26,6 +26,7 @@ Route::post('/register', [UserController::class, 'register']);
 
 
 //Route::post('/searchFormAction', [AddressController::class, 'searchFormAction']);
-Route::post('/confirmAddress', [AddressController::class, 'confirmAddress']);
+//Route::post('/confirmAddress', [AddressController::class, 'confirmAddress']);
 
 Route::post('/searchFormActionApi', [AddressController::class, 'searchFormActionApi']);
+Route::post('/confirmAddressApi', [AddressController::class, 'confirmAddressApi']);

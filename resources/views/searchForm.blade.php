@@ -9,32 +9,32 @@
     </head>
     <body class="antialiased">
 
-    <div class="main-block">
-      <h1>Address lookup</h1>
-      <form action="searchFormAction" method="POST">
-      @csrf
-        <hr>
-        <hr>
-        <label id="icon" for="address"><i class="fas fa-envelope"></i></label>
-        <input type="text" name="address" id="address" placeholder="address" required/>
-        <hr>
-        <div class="btn-block">
+        <div class="main-block">
+        <h1>Address lookup</h1>
+        <form action="searchFormAction" method="POST">
+        @csrf
+            <hr>
+            <hr>
+            <label id="icon" for="address"><i class="fas fa-envelope"></i></label>
+            <input type="text" name="address" id="address" placeholder="address" required/>
+            <hr>
+            <div class="btn-block">
 
-          <button type="submit" >Submit</button>
+            <button type="submit" >Submit</button>
+            </div>
+        </form>
         </div>
-      </form>
-    </div>
-    <ul>
+        <ul>
 
-    @if (!is_null($json))
-        @foreach ($json['data'] as $item)
-        <li>
-                {{print_r($item['label'], true)}}
-        </li>
-        @endforeach
-    </ul>
-    @endif
-    <br><br><br><br>
+        @if (!is_null($json))
+            @foreach ($json['data'] as $item)
+            <li>
+                    {{print_r($item['label'], true)}}
+            </li>
+            @endforeach
+        </ul>
+        @endif
+        <br><br><br><br>
 
         <form method="post" action="confirmAddress" >
         @csrf
