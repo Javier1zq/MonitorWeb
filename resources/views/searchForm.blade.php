@@ -10,19 +10,18 @@
     <body class="antialiased">
 
         <div class="main-block">
-        <h1>Address lookup</h1>
-        <form action="searchFormAction" method="POST">
-        @csrf
-            <hr>
-            <hr>
-            <label id="icon" for="address"><i class="fas fa-envelope"></i></label>
-            <input type="text" name="address" id="address" placeholder="address" required/>
-            <hr>
-            <div class="btn-block">
-
-            <button type="submit" >Submit</button>
-            </div>
-        </form>
+            <h1>Address lookup</h1>
+            <form action="searchFormAction" method="POST">
+            @csrf
+                <hr>
+                <hr>
+                <label id="icon" for="address"><i class="fas fa-envelope"></i></label>
+                <input type="text" name="address" id="address" placeholder="address" required/>
+                <hr>
+                <div class="btn-block">
+                    <button type="submit" >Submit</button>
+                </div>
+            </form>
         </div>
         <ul>
 
