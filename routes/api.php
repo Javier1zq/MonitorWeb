@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AddressController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,3 +22,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/', [UserController::class, 'index']);
 Route::get('/user', [UserController::class, 'user'])->middleware('auth:api');
 Route::post('/register', [UserController::class, 'register']);
+
+
+
+//Route::post('/searchFormAction', [AddressController::class, 'searchFormAction']);
+Route::post('/confirmAddress', [AddressController::class, 'confirmAddress']);
+
+Route::post('/searchFormActionApi', [AddressController::class, 'searchFormActionApi']);

@@ -29,11 +29,11 @@ class AddressController extends Controller
         $addressAux->provinceId = $request->provinceId;
         $addressAux->type = $request->type;
 
-        
+
         $found = false;
         foreach($address as $list){
-            
-            
+
+
             if($addressAux->street == $list->street && $addressAux->number == $list->number && $addressAux->townId == $list->townId && $addressAux->provinceId == $list->provinceId && $addressAux->type == $list->type){
                 print_r("Found");
                 $found = true;
@@ -43,14 +43,14 @@ class AddressController extends Controller
         if($found == false){
             print_r("Not Found");
         }
-        
+
 
         //$address->save();
         //return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');*/
     }
     public function searchForm()
     {
-        
+
         /*$foo = array('code' => '200'),array('code' => '200');
         $json = json_encode($myArr);*/
        // $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="plaza"')->json();
@@ -60,23 +60,33 @@ class AddressController extends Controller
         $data = $json;
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
-    public function searchFormAction(Request $request)
+    public function searchFormAction(Request $request) //local requests
     {
         print_r(urlencode($request->address));
-        
+
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
 
         $data = $json;
 
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
+    public function searchFormActionApi(Request $request)
+    {
+        print_r(urlencode($request->address));
 
-    public function confirmAddress(Request $request)
+        $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
+
+        $data = $json;
+
+        return ['json'=>$json];
+    }
+
+    public function confirmAddress(Request $request)  //Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
     {
         print_r($request->get('type'));
         print_r($request->number);
         $json1= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->get('type')).'"')->json();
-        
+
         foreach($json1['data'] as $item ){
             $addressAux = new Address;
             $addressAux->street = $item['street'];
@@ -88,7 +98,7 @@ class AddressController extends Controller
             $addressAux->town = $item['town'];
         }
 
-        
+
 
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/addresses?street='.$addressAux->street.'&number='.$addressAux->number.'&province='.$addressAux->province.'&town='.$addressAux->town.'&provinceId='.$addressAux->provinceId.'&townId='.$addressAux->townId.'&type='.$addressAux->type)->json();
         print_r($json);
