@@ -70,7 +70,7 @@ class AddressController extends Controller
 
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
-    public function searchFormActionApi(Request $request)
+    public function searchFormActionApi(Request $request)//Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
     {
         print_r(urlencode($request->address));
 
@@ -81,7 +81,7 @@ class AddressController extends Controller
         return ['json'=>$json];
     }
 
-    public function confirmAddress(Request $request)  //Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
+    public function confirmAddress(Request $request)
     {
         print_r($request->get('type'));
         print_r($request->number);
