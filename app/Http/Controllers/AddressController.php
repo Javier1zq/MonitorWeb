@@ -51,9 +51,9 @@ class AddressController extends Controller
     }
     public function checkCoverageApi(Request $request)
     {
-        print_r($request->street);
+        /*print_r($request->street);
         print_r($request->number);
-        print_r($request->town);
+        print_r($request->town);*/
         $address=check_address::all();
         $addressAux = new check_address;
         $addressAux->street = $request->street;
@@ -67,15 +67,16 @@ class AddressController extends Controller
             //print_r($list->Nombre);
             //print_r($addressAux->street);
             //echo '<br/>';
-            if($addressAux->street == $list->Nombre && $addressAux->number == $list->Nº && $addressAux->town == $list->Municipio){
-                print_r("Found");
 
+
+            if(strcasecmp($addressAux->street, $list->Nombre)==0 && strcasecmp($addressAux->number, $list->Nº)==0 && strcasecmp($addressAux->town, $list->Municipio)==0){
+                return "found";
                 $found = true;
             break;
             }
         }
         if($found == false){
-            print_r("Not Found");
+            return "not_found";
         }
     }
     public function searchForm()
@@ -166,5 +167,6 @@ class AddressController extends Controller
         return redirect('add-address-form')->with('status', 'Post Form Data Has Been inserted');
     }*/
 }
+
 
 
