@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Address;
+use App\Models\check_address;
 class AddressController extends Controller
 {
     public function index()
@@ -48,6 +49,35 @@ class AddressController extends Controller
         //$address->save();
         //return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');*/
     }
+    public function checkCoverageApi(Request $request)
+    {
+        print_r($request->street);
+        print_r($request->number);
+        print_r($request->town);
+        $address=check_address::all();
+        $addressAux = new check_address;
+        $addressAux->street = $request->street;
+        $addressAux->number = $request->number;
+        $addressAux->town = $request->town;
+
+
+        $found = false;
+        foreach($address as $list){
+
+            //print_r($list->Nombre);
+            //print_r($addressAux->street);
+            //echo '<br/>';
+            if($addressAux->street == $list->Nombre && $addressAux->number == $list->Nº && $addressAux->town == $list->Municipio){
+                print_r("Found");
+
+                $found = true;
+            break;
+            }
+        }
+        if($found == false){
+            print_r("Not Found");
+        }
+    }
     public function searchForm()
     {
 
@@ -63,21 +93,15 @@ class AddressController extends Controller
     public function searchFormAction(Request $request) //local requests
     {
         print_r(urlencode($request->address));
-
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
-
         $data = $json;
-
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
     public function searchFormActionApi(Request $request)//Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
     {
         print_r(urlencode($request->address));
-
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
-
         $data = $json;
-
         return ['json'=>$json];
     }
 
@@ -97,8 +121,6 @@ class AddressController extends Controller
             $addressAux->province = $item['province'];
             $addressAux->town = $item['town'];
         }
-
-
 
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/addresses?street='.$addressAux->street.'&number='.$addressAux->number.'&province='.$addressAux->province.'&town='.$addressAux->town.'&provinceId='.$addressAux->provinceId.'&townId='.$addressAux->townId.'&type='.$addressAux->type)->json();
         print_r($json);
@@ -122,8 +144,6 @@ class AddressController extends Controller
             $addressAux->province = $item['province'];
             $addressAux->town = $item['town'];
         }
-
-
 
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/addresses?street='.$addressAux->street.'&number='.$addressAux->number.'&province='.$addressAux->province.'&town='.$addressAux->town.'&provinceId='.$addressAux->provinceId.'&townId='.$addressAux->townId.'&type='.$addressAux->type)->json();
         print_r($json);

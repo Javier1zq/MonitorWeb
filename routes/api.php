@@ -30,3 +30,4 @@ Route::post('/register', [UserController::class, 'register']);
 
 Route::post('/searchFormActionApi', [AddressController::class, 'searchFormActionApi']);
 Route::post('/confirmAddressApi', [AddressController::class, 'confirmAddressApi']);
+Route::post('/checkCoverageApi', [AddressController::class, 'checkCoverageApi']);
