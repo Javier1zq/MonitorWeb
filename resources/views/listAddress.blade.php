@@ -9,30 +9,38 @@
 <body>
 <br>
 
-<br>
-  <table border="1">
-    <tr>
-      <td>street</td>
-      <td>number</td>
-      <td>townId</td>
-      <td>provinceId</td>
-      <td>type</td>
-    </tr>
-    <br>
-    
-    @foreach ($addresses as $address)
-    <tr>
-      <td>{{$address['street']}}</td>
-      <td>{{$address['number']}}</td>
-      <td>{{$address['townId']}}</td>
-      <td>{{$address['provinceId']}}</td>
-      <td>{{$address['type']}}</td>
-    </tr>
-    @endforeach 
-    
-  </table>
 
-<!--  
+
+<form action="listDB" method="POST">
+      @csrf
+        <hr>
+
+        <hr>
+        <label id="icon" for="street"><i class="fas fa-envelope"></i></label>
+        <input type="text" name="street" id="street" value="FLUVIA" required/>
+        <label id="icon" for="number"><i class="fas fa-user"></i></label>
+        <input type="number" name="number" id="number" value="76" required/>
+        <label id="icon" for="town"><i class="fas fa-unlock-alt"></i></label>
+        <input type="text" name="town" id="town" value="BARCELONA" required/>
+
+        <hr>
+        <div class="btn-block">
+
+          <button type="submit" >Submit</button>
+        </div>
+      </form>
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <div class="container mt-4">
   @if(session('status'))
     <div class="alert alert-success">

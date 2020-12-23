@@ -27,6 +27,9 @@ Route::get('searchAddress', [AddressController::class, 'searchAddress']);
 Route::get('listAddress', [AddressController::class, 'index']);
 Route::get('searchForm', [AddressController::class, 'searchForm']);
 
+
+Route::post('listDB', [AddressController::class, 'listDB']);
+
 Route::post('store-form', [AddressController::class, 'store']);
 Route::post('addressSearch', [AddressController::class, 'addressSearch']);
 Route::post('searchFormAction', [AddressController::class, 'searchFormAction']);

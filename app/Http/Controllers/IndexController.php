@@ -11,4 +11,5 @@ class IndexController extends Controller
     {
         return 'this is a controller';
     }
+
 }

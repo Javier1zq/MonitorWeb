@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Address;
 use App\Models\check_address;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\DB;
 class AddressController extends Controller
 {
     public function index()
@@ -16,6 +18,29 @@ class AddressController extends Controller
     {
         $address=Address::all();
         return view('searchAddress',['addresses'=>$address]);
+    }
+    public function listDB(Request $request)
+    {
+        $addressAux = new check_address;
+        $addressAux->street = $request->street;
+        $addressAux->number = $request->number;
+        $addressAux->town = $request->town;
+
+        $address = DB::table('check_addresses') ->where('Localidad', '=', Helper::removeAccents($request->town))
+                                                ->where('Nombre', '=', Helper::removeAccents($request->street))
+                                                ->where('Nº', '=', Helper::removeAccents($request->number))
+                                                ->get();
+
+        //print_r($address);
+        foreach ($address as $list) {
+            if (strcasecmp(Helper::removeAccents($addressAux->street), Helper::removeAccents($list->Nombre))==0) {
+                print_r('loco funciona');
+            }
+
+        }
+
+        print_r($address);
+        return view('listAddress');
     }
 
     public function addressSearch(Request $request)
@@ -54,12 +79,23 @@ class AddressController extends Controller
         /*print_r($request->street);
         print_r($request->number);
         print_r($request->town);*/
-        $address=check_address::all();
+        //$address=check_address::all();
         $addressAux = new check_address;
         $addressAux->street = $request->street;
         $addressAux->number = $request->number;
         $addressAux->town = $request->town;
 
+
+        //print_r(Helper::removeAccents($addressAux->street));
+
+
+
+        $address = DB::table('check_addresses') ->where('Localidad', '=', Helper::removeAccents($request->town))
+                                                ->where('Nombre', '=', Helper::removeAccents($request->street))
+                                                ->where('Nº', '=', Helper::removeAccents($request->number))
+                                                ->get();
+        //print_r('Hello');
+        //print_r($address);
 
         $found = false;
         foreach($address as $list){
@@ -69,7 +105,7 @@ class AddressController extends Controller
             //echo '<br/>';
 
 
-            if(strcasecmp($addressAux->street, $list->Nombre)==0 && strcasecmp($addressAux->number, $list->Nº)==0 && strcasecmp($addressAux->town, $list->Municipio)==0){
+            if(strcasecmp(Helper::removeAccents($addressAux->street), Helper::removeAccents($list->Nombre))==0 && strcasecmp(Helper::removeAccents($addressAux->number), Helper::removeAccents($list->Nº))==0 && strcasecmp(Helper::removeAccents($addressAux->town), Helper::removeAccents($list->Municipio))==0){
                 return "found";
                 $found = true;
             break;
@@ -152,6 +188,7 @@ class AddressController extends Controller
         $json=null;
     return ['json'=>$json];
     }
+
     /*
     public function store(Request $request)
     {
