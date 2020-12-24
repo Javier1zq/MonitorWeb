@@ -10,7 +10,6 @@ class AddressController extends Controller
 {
     public function index()
     {
-        //return Address::all();
         $address=Address::all();
         return view('listAddress',['addresses'=>$address]);
     }
@@ -19,7 +18,7 @@ class AddressController extends Controller
         $address=Address::all();
         return view('searchAddress',['addresses'=>$address]);
     }
-    public function listDB(Request $request)
+    public function listDB(Request $request)//local DB search
     {
         $addressAux = new check_address;
         $addressAux->street = $request->street;
@@ -31,7 +30,6 @@ class AddressController extends Controller
                                                 ->where('Nº', '=', Helper::removeAccents($request->number))
                                                 ->get();
 
-        //print_r($address);
         foreach ($address as $list) {
             if (strcasecmp(Helper::removeAccents($addressAux->street), Helper::removeAccents($list->Nombre))==0) {
                 print_r('loco funciona');
@@ -74,38 +72,18 @@ class AddressController extends Controller
         //$address->save();
         //return redirect('searchAddress')->with('status', 'Post Form Data Has Been inserted');*/
     }
-    public function checkCoverageApi(Request $request)
+    public function checkCoverageApi(Request $request) //API call for finding coverage in SQL database
     {
-        /*print_r($request->street);
-        print_r($request->number);
-        print_r($request->town);*/
-        //$address=check_address::all();
-        $addressAux = new check_address;
-        $addressAux->street = $request->street;
-        $addressAux->number = $request->number;
-        $addressAux->town = $request->town;
-
-
-        //print_r(Helper::removeAccents($addressAux->street));
-
-
 
         $address = DB::table('check_addresses') ->where('Localidad', '=', Helper::removeAccents($request->town))
                                                 ->where('Nombre', '=', Helper::removeAccents($request->street))
                                                 ->where('Nº', '=', Helper::removeAccents($request->number))
                                                 ->get();
-        //print_r('Hello');
-        //print_r($address);
 
         $found = false;
         foreach($address as $list){
 
-            //print_r($list->Nombre);
-            //print_r($addressAux->street);
-            //echo '<br/>';
-
-
-            if(strcasecmp(Helper::removeAccents($addressAux->street), Helper::removeAccents($list->Nombre))==0 && strcasecmp(Helper::removeAccents($addressAux->number), Helper::removeAccents($list->Nº))==0 && strcasecmp(Helper::removeAccents($addressAux->town), Helper::removeAccents($list->Municipio))==0){
+            if(strcasecmp(Helper::removeAccents($request->street), Helper::removeAccents($list->Nombre))==0 && strcasecmp(Helper::removeAccents($request->number), Helper::removeAccents($list->Nº))==0 && strcasecmp(Helper::removeAccents($request->town), Helper::removeAccents($list->Localidad))==0){
                 return "found";
                 $found = true;
             break;
@@ -118,11 +96,6 @@ class AddressController extends Controller
     public function searchForm()
     {
 
-        /*$foo = array('code' => '200'),array('code' => '200');
-        $json = json_encode($myArr);*/
-       // $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="plaza"')->json();
-        //$json= '{}';
-        //$data = $json;
         $json = null;
         $data = $json;
         return view('searchForm',['data'=>$data],['json'=>$json]);
