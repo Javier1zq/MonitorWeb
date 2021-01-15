@@ -7,7 +7,7 @@ class Helper
   /**
    * Private constructor, `new` is disallowed by design.
    */
-  private function __construct()
+  private function __construct() //This helper removes accents and turns special characters into characters comparable in the SQL database
   { }
 
   public static function removeAccents($string) {

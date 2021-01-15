@@ -22,7 +22,7 @@ class UserRegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules()//helps identifying why the request is denied when registering users
     {
         return [
             'first_name' => 'required',

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['*'],
+    'paths' => ['*'], //Set to all to avoid cors errors when accesing the server during development
 
     'allowed_methods' => ['*'],
 

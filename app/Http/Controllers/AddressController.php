@@ -8,31 +8,29 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 class AddressController extends Controller
 {
-    public function index()
+    public function index() //Deprecated(old address format), lists all addresses on DB
     {
         $address=Address::all();
         return view('listAddress',['addresses'=>$address]);
     }
-    public function searchAddress()
+    public function searchAddress()//Deprecated (old address format), searched for an address on DB
     {
         $address=Address::all();
         return view('searchAddress',['addresses'=>$address]);
     }
-    public function listDB(Request $request)//local DB search
+    public function listDB(Request $request)//local DB search and list
     {
-        $addressAux = new check_address;
-        $addressAux->street = $request->street;
-        $addressAux->number = $request->number;
-        $addressAux->town = $request->town;
 
+        //DB search for parameters requested, Safe against SQL injection
         $address = DB::table('check_addresses') ->where('Localidad', '=', Helper::removeAccents($request->town))
                                                 ->where('Nombre', '=', Helper::removeAccents($request->street))
                                                 ->where('Nº', '=', Helper::removeAccents($request->number))
                                                 ->get();
 
-        foreach ($address as $list) {
-            if (strcasecmp(Helper::removeAccents($addressAux->street), Helper::removeAccents($list->Nombre))==0) {
-                print_r('loco funciona');
+        foreach ($address as $list) { //loop for the listing
+            if (strcasecmp(Helper::removeAccents($request->street), Helper::removeAccents($list->Nombre))==0) {
+                //print_r('loco funciona');
+                print_r(Helper::removeAccents($request->street));// Prints all the streets (theyd be the same)
             }
 
         }
@@ -41,7 +39,7 @@ class AddressController extends Controller
         return view('listAddress');
     }
 
-    public function addressSearch(Request $request)
+    public function addressSearch(Request $request)//Deprecated
     {
         //print_r($request->input());
 
@@ -74,23 +72,23 @@ class AddressController extends Controller
     }
     public function checkCoverageApi(Request $request) //API call for finding coverage in SQL database
     {
-
+        //DB search for parameters requested, Safe against SQL injection
         $address = DB::table('check_addresses') ->where('Localidad', '=', Helper::removeAccents($request->town))
                                                 ->where('Nombre', '=', Helper::removeAccents($request->street))
                                                 ->where('Nº', '=', Helper::removeAccents($request->number))
                                                 ->get();
 
         $found = false;
-        foreach($address as $list){
+        foreach($address as $list){//Loops all returned addresses
 
             if(strcasecmp(Helper::removeAccents($request->street), Helper::removeAccents($list->Nombre))==0 && strcasecmp(Helper::removeAccents($request->number), Helper::removeAccents($list->Nº))==0 && strcasecmp(Helper::removeAccents($request->town), Helper::removeAccents($list->Localidad))==0){
                 return "found";
-                $found = true;
+                $found = true; //finds the match and returns true (kind of redundant, but it would return false if the SQL search goes wrong)
             break;
             }
         }
         if($found == false){
-            return "not_found";
+            return "not_found";//returns not found
         }
     }
     public function searchForm()
@@ -98,7 +96,7 @@ class AddressController extends Controller
 
         $json = null;
         $data = $json;
-        return view('searchForm',['data'=>$data],['json'=>$json]);
+        return view('searchForm',['data'=>$data],['json'=>$json]);//For debugging, sends raw data to look for bugs
     }
     public function searchFormAction(Request $request) //local requests
     {
@@ -107,7 +105,7 @@ class AddressController extends Controller
         $data = $json;
         return view('searchForm',['data'=>$data],['json'=>$json]);
     }
-    public function searchFormActionApi(Request $request)//Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
+    public function searchFormActionApi(Request $request)//Deprecated(Their API changed) Finetworks Api requests e.g. http://localhost:8000/api/searchFormActionApi?address=Plaza los portales
     {
         print_r(urlencode($request->address));
         $json= Http::get('https://www.finetwork.com/api/v2/fiber/normalizer?address="'.urlencode($request->address).'"')->json();
@@ -115,7 +113,7 @@ class AddressController extends Controller
         return ['json'=>$json];
     }
 
-    public function confirmAddress(Request $request)
+    public function confirmAddress(Request $request)//Deprecated (Old address format)
     {
         print_r($request->get('type'));
         print_r($request->number);
@@ -138,7 +136,7 @@ class AddressController extends Controller
         $json=null;
     return view('searchForm'/*,['data'=>$data]*/,['json'=>$json]);
     }
-    public function confirmAddressApi(Request $request)
+    public function confirmAddressApi(Request $request)//Deprecated (Old address format) also their API changed
     {
         print_r($request->get('type'));
         print_r($request->number);
