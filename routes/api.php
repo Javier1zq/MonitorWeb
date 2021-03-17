@@ -31,3 +31,4 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/searchFormActionApi', [AddressController::class, 'searchFormActionApi']);//Deprecated(Their API changed)
 Route::post('/confirmAddressApi', [AddressController::class, 'confirmAddressApi']);//Deprecated (Old address format) also their API changed
 Route::post('/checkCoverageApi', [AddressController::class, 'checkCoverageApi']);//API call for finding coverage in SQL database
+
