@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;//Factory to fill the users table in the database
 
@@ -21,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'DNI',
         'email',
         'password',
     ];

@@ -17,9 +17,11 @@ class UserController extends Controller
         return $request->user();
     }
     public function register(UserRegisterRequest $request){//creates USER with the information on the form
+        //print_r($request->DNI);
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'DNI' => $request->DNI,
             'email' => $request->email,
             'password' => Hash::make($request->password)
 

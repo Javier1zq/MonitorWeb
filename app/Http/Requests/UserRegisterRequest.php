@@ -27,6 +27,7 @@ class UserRegisterRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
+            'DNI' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed|min:6'
         ];
@@ -36,6 +37,7 @@ class UserRegisterRequest extends FormRequest
     return [
         'first_name.required'=>'First Name field required',
         'last_name.required'=>'Last Name field required',
+        'DNI.required' => 'DNI field required',
         'email.required'=>'Email field required',
         'password.required'=>'Password required'
     ];
