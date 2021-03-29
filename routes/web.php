@@ -26,7 +26,7 @@ Route::get('/searchAddress', function () {
 Route::get('searchAddress', [AddressController::class, 'searchAddress']);
 Route::get('listAddress', [AddressController::class, 'index']);
 Route::get('searchForm', [AddressController::class, 'searchForm']);
-
+Route::get('/verify', [App\Http\Controllers\UserController::class, 'verifyUser'])->name('verify.user');
 
 Route::post('listDB', [AddressController::class, 'listDB']);
 
