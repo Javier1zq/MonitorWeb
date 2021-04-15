@@ -21,6 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/', [UserController::class, 'index']);
 Route::get('/user', [UserController::class, 'user'])->middleware('auth:api');
+Route::post('/data', [UserController::class, 'data'])->middleware('auth:api');
+Route::post('/services', [UserController::class, 'services'])->middleware('auth:api');
+
+
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/userIsVerified', [UserController::class, 'userIsVerified']);
 

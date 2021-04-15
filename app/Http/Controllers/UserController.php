@@ -9,14 +9,40 @@ use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Controllers\MailController;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 class UserController extends Controller
 {
     public function index(){
         return User::all();
     }
     public function user(Request $request){
+        //print_r('hola');
         return $request->user();
+    }
+    public function data(Request $request){
+        //print_r('hola2');
+        $user_DNI = $request->user()->DNI;
+        //print_r('this is the result of data');
+        //print_r($user_DNI);
+        $data = DB::table('data_consumption') ->where('DNI', '=', $user_DNI)->orderBy('month', 'desc')->get();
+
+        if ($data) {
+                return $data;
+        }
+        else return null;
+    }
+    public function services(Request $request){
+        //print_r('hola2');
+        $user_DNI = $request->user()->DNI;
+        //print_r('this is the result of data');
+        //print_r($user_DNI);
+        $data = DB::table('hired_services') ->where('DNI', '=', $user_DNI)->get();
+
+        if ($data) {
+                return $data;
+        }
+        else return null;
     }
     /*public function register(UserRegisterRequest $request){//creates USER with the information on the form
         //print_r($request->DNI);
