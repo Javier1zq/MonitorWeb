@@ -77,8 +77,12 @@ class AddressController extends Controller
                                                 ->where('Nombre', '=', Helper::removeAccents($request->street))
                                                 ->where('Nº', '=', Helper::removeAccents($request->number))
                                                 ->get();
-
+        /*$address2 = DB::table('check_addresses') ->where('Localidad', '=', 'navas')
+                                                ->where('Nombre', '=', 'BARCELONA')
+                                                ->where('Nº', '=', '37')
+                                                ->get();*/
         $found = false;
+
         foreach($address as $list){//Loops all returned addresses
 
             if(strcasecmp(Helper::removeAccents($request->street), Helper::removeAccents($list->Nombre))==0 && strcasecmp(Helper::removeAccents($request->number), Helper::removeAccents($list->Nº))==0 && strcasecmp(Helper::removeAccents($request->town), Helper::removeAccents($list->Localidad))==0){
@@ -89,6 +93,7 @@ class AddressController extends Controller
         }
         if($found == false){
             return "not_found";//returns not found
+            //return Helper::removeAccents($request->street) . Helper::removeAccents($request->number) . Helper::removeAccents($request->town);
         }
     }
     public function searchForm()

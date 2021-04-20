@@ -23,6 +23,7 @@ Route::get('/', [UserController::class, 'index']);
 Route::get('/user', [UserController::class, 'user'])->middleware('auth:api');
 Route::post('/data', [UserController::class, 'data'])->middleware('auth:api');
 Route::post('/services', [UserController::class, 'services'])->middleware('auth:api');
+Route::post('/generateInvoice', [UserController::class, 'generateInvoice'])->middleware('auth:api');
 
 
 Route::post('/register', [UserController::class, 'register']);

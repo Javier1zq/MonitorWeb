@@ -16,6 +16,7 @@
         "laravel/framework": "^8.0",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5|dev-develop",
+        "laraveldaily/laravel-invoices": "2.0",
         "paragonie/random_compat": "2.*"
     },
     "require-dev": {
