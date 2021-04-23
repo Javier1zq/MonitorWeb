@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Foundation\Http\FormRequest;
@@ -42,7 +43,7 @@ class UserController extends Controller
         $user_DNI = $request->user()->DNI;
         //print_r('this is the result of data');
         //print_r($user_DNI);
-        $data = DB::table('hired_services') ->where('DNI', '=', $user_DNI)->get();
+        $data = DB::table('services') ->where('DNI', '=', $user_DNI)->get();
 
         if ($data) {
             return $data;
@@ -53,7 +54,7 @@ class UserController extends Controller
 
         $user_DNI = $request->user()->DNI;
 
-        $data = DB::table('hired_services') ->where('DNI', '=', $user_DNI)->get();
+        $data = DB::table('services') ->where('DNI', '=', $user_DNI)->get();
 
         if ($data[0]) {
 
@@ -161,6 +162,79 @@ class UserController extends Controller
 
         $user->save();
 
+        $service= new Service();
+        $service->DNI = $request->DNI;
+        if ($request->tvPlan != null) {
+            $service->tv = $request->tvPlan;
+        }else $service->tv = false;
+
+        switch ($request->dataPlan) {
+            case '0':
+                $service->data =0;
+                $service->data_type = 0;
+                $service->phone =0;
+                $service->phone_type = 0;
+                break;
+            case '1':
+                $service->data =1;
+                $service->data_type = 9000;
+                $service->phone =1;
+                $service->phone_type = 50000;
+                break;
+            case '2':
+                $service->data =1;
+                $service->data_type = 17000;
+                $service->phone =1;
+                $service->phone_type = 50000;
+                break;
+            case '3':
+                $service->data =1;
+                $service->data_type = 52000;
+                $service->phone =1;
+                $service->phone_type = 50000;
+                break;
+            case '4':
+                $service->data =1;
+                $service->data_type = 92000;
+                $service->phone =1;
+                $service->phone_type = 50000;
+                break;
+            default:
+                $service->data =0;
+                $service->data_type = 0;
+                $service->phone =0;
+                $service->phone_type = 0;
+                break;
+        }
+        switch ($request->fiberPlan) {
+            case '0':
+                $service->fiber =0;
+                $service->fiber_type = 0;
+                break;
+            case '1':
+                $service->fiber =1;
+                $service->fiber_type = 100;
+                break;
+            case '2':
+                $service->fiber =1;
+                $service->fiber_type = 300;
+                break;
+            case '3':
+                $service->fiber =1;
+                $service->fiber_type = 600;
+                break;
+            case '4':
+                $service->fiber =1;
+                $service->fiber_type = 1000;
+                break;
+            default:
+                $service->fiber =0;
+                $service->fiber_type = 0;
+                break;
+        }
+
+        $service->save();
+
         if ($user !=null) {
             MailController::sendSignupEmail($user->first_name, $user->email, $user->verification_code);
             return response()->json([
@@ -185,7 +259,8 @@ class UserController extends Controller
             $user->email_verified_at = now();
             $user->remember_token = Str::random(10);
             $user->save();
-            return 'User Verified successfully';
+            //return 'User Verified successfully';
+            return redirect()->away('http://localhost:4200/verified');
         }
 
         return 'User Not verified';
