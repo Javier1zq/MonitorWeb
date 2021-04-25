@@ -64,7 +64,7 @@ class UserController extends Controller
             $customer = new Buyer([
                 'name'          => $request->user()->first_name . ' ' . $request->user()->last_name,
                 'custom_fields' => [
-                    'email' => 'test@example.com',
+                    'email' => $request->user()->email,
                 ],
             ]);
             if ($data[0]->data) {
@@ -114,14 +114,15 @@ class UserController extends Controller
             }
             $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
 
-            $invoice = Invoice::make()
+            $invoice = Invoice::make(trans('Factura'))
                 ->buyer($customer)
                 ->discountByPercent(10)
                 ->taxRate(21)
                 //->shipping(1.99)
                 ->addItem($itemData)
                 ->addItem($itemFiber)
-                ->addItem($itemTV);
+                ->addItem($itemTV)
+                ->logo(public_path('storage\images\Recurso 8.jpg'));
 
             //$invoice->download('invoice.pdf');
             /*Storage::disk('public')->put("PDFInvoice.pdf",$invoice->stream());

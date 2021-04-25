@@ -78,8 +78,8 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => 'Towne, Smith and Ebert',
-            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
+            'name'          => 'IMAGINE',
+            'address'       => 'Sede social Plaza Santa Catalina, 6, 30004 Murcia, España.',
             'code'          => '41-1985581',
             'vat'           => '123456789',
             'phone'         => '760-355-3930',
