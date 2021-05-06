@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Mockery\Undefined;
 use PDF;
 class UserController extends Controller
 {
@@ -53,9 +54,9 @@ class UserController extends Controller
     public function generateInvoice(Request $request){
 
         $user_DNI = $request->user()->DNI;
-
-        $data = DB::table('services') ->where('DNI', '=', $user_DNI)->get();
-
+        $dataDate = $request->date;
+        //$data = DB::table('services') ->where('DNI', '=', $user_DNI)->where('date', '=', $dataDate)->get();
+        $data = DB::table('data_consumption') ->where('DNI', '=', $user_DNI)->where('date', '=', $dataDate)->get();
         if ($data[0]) {
 
             //$data[0]->fiber=0;
@@ -67,52 +68,54 @@ class UserController extends Controller
                     'email' => $request->user()->email,
                 ],
             ]);
-            if ($data[0]->data) {
+            if ($data[0]->data!=null) {
                 switch ($data[0]->data_type) {
                     case '9000':
-                        $itemData = (new InvoiceItem())->title('Data 9GB')->pricePerUnit(8.90);
+                        $itemData = (new InvoiceItem())->title('Datos 9GB')->pricePerUnit(8.90);
                         break;
                     case '17000':
-                        $itemData = (new InvoiceItem())->title('Data 17GB')->pricePerUnit(12.90);
+                        $itemData = (new InvoiceItem())->title('Datos 17GB')->pricePerUnit(12.90);
                         break;
                     case '52000':
-                        $itemData = (new InvoiceItem())->title('Data 52GB')->pricePerUnit(16.90);
+                        $itemData = (new InvoiceItem())->title('Datos 52GB')->pricePerUnit(16.90);
                         break;
                     case '92000':
-                        $itemData = (new InvoiceItem())->title('Data 92GB')->pricePerUnit(20.90);
+                        $itemData = (new InvoiceItem())->title('Datos 92GB')->pricePerUnit(20.90);
                         break;
                     case '0':
-                        $itemData = (new InvoiceItem())->title('Data Unlimited GB')->pricePerUnit(29.99);
+                        $itemData = (new InvoiceItem())->title('Datos Ilimitados GB')->pricePerUnit(29.99);
                         break;
                     default:
-                    $itemData = (new InvoiceItem())->title('Data')->pricePerUnit(0.99);
+                    $itemData = (new InvoiceItem())->title('Datos')->pricePerUnit(0.00);
                         break;
                 }
-            }
-            if ($data[0]->fiber) {
+            }else{$itemData = (new InvoiceItem())->title('Datos')->pricePerUnit(0.00);}
+            if ($data[0]->fiber!=null && isset($data[0]->fiber)) {
 
                 switch ($data[0]->fiber_type) {
                     case '100':
-                        $itemFiber = (new InvoiceItem())->title('Fiber 100MB')->pricePerUnit(21.90);
+                        $itemFiber = (new InvoiceItem())->title('Fibra 100MB')->pricePerUnit(21.90);
                         break;
                     case '300':
-                        $itemFiber = (new InvoiceItem())->title('Fiber 300MB')->pricePerUnit(25.90);
+                        $itemFiber = (new InvoiceItem())->title('Fibra 300MB')->pricePerUnit(25.90);
                         break;
                     case '600':
-                        $itemFiber = (new InvoiceItem())->title('Fiber 600MB')->pricePerUnit(29.90);
+                        $itemFiber = (new InvoiceItem())->title('Fibra 600MB')->pricePerUnit(29.90);
                         break;
                     case '1000':
-                        $itemFiber = (new InvoiceItem())->title('Fiber 1000MB')->pricePerUnit(33.90);
+                        $itemFiber = (new InvoiceItem())->title('Fibra 1000MB')->pricePerUnit(33.90);
                         break;
                     default:
-                    $itemFiber = (new InvoiceItem())->title('Fiber')->pricePerUnit(0.99);
+                    $itemFiber = (new InvoiceItem())->title('Fibra')->pricePerUnit(0.00);
                         break;
                 }
-            }
-            if ($data[0]->tv) {
-                $itemTV = (new InvoiceItem())->title('Television')->pricePerUnit(8,9);
-            }
-            $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+            }else{$itemFiber = (new InvoiceItem())->title('Fibra')->pricePerUnit(0.00);}
+            if ($data[0]->tv!=null && isset($data[0]->tv)) {
+                if ($data[0]->tv) {
+                    $itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(8,9);
+                }else{$itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(0.00);}
+
+            }else{$itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(0.00);}
 
             $invoice = Invoice::make(trans('Factura'))
                 ->buyer($customer)
