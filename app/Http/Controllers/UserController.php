@@ -52,9 +52,12 @@ class UserController extends Controller
         else return null;
     }
     public function generateInvoice(Request $request){
-
+        
         $user_DNI = $request->user()->DNI;
         $dataDate = $request->date;
+
+        //$user_DNI = $request->data->user()->DNI;
+        //$dataDate = $request->data->date;
         //$data = DB::table('services') ->where('DNI', '=', $user_DNI)->where('date', '=', $dataDate)->get();
         $data = DB::table('data_consumption') ->where('DNI', '=', $user_DNI)->where('date', '=', $dataDate)->get();
         if ($data[0]) {
@@ -86,7 +89,7 @@ class UserController extends Controller
                         $itemData = (new InvoiceItem())->title('Datos Ilimitados GB')->pricePerUnit(29.99);
                         break;
                     default:
-                    $itemData = (new InvoiceItem())->title('Datos')->pricePerUnit(0.00);
+                    $itemData = (new InvoiceItem())->title('Datos')->pricePerUnit(0.00)->quantity(0);
                         break;
                 }
             }else{$itemData = (new InvoiceItem())->title('Datos')->pricePerUnit(0.00);}
@@ -106,7 +109,7 @@ class UserController extends Controller
                         $itemFiber = (new InvoiceItem())->title('Fibra 1000MB')->pricePerUnit(33.90);
                         break;
                     default:
-                    $itemFiber = (new InvoiceItem())->title('Fibra')->pricePerUnit(0.00);
+                    $itemFiber = (new InvoiceItem())->title('Fibra')->pricePerUnit(0.00)->quantity(0);
                         break;
                 }
             }else{$itemFiber = (new InvoiceItem())->title('Fibra')->pricePerUnit(0.00);}
@@ -115,7 +118,7 @@ class UserController extends Controller
                     $itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(8,9);
                 }else{$itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(0.00);}
 
-            }else{$itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(0.00);}
+            }else{$itemTV = (new InvoiceItem())->title('Televisión')->pricePerUnit(0.00)->quantity(0);}
 
             $invoice = Invoice::make(trans('Factura'))
                 ->buyer($customer)
@@ -125,7 +128,7 @@ class UserController extends Controller
                 ->addItem($itemData)
                 ->addItem($itemFiber)
                 ->addItem($itemTV)
-                ->logo(public_path('storage\images\Recurso 8.jpg'));
+                ->logo(public_path('storage\Recurso 8.jpg'));
 
             //$invoice->download('invoice.pdf');
             /*Storage::disk('public')->put("PDFInvoice.pdf",$invoice->stream());
@@ -264,7 +267,7 @@ class UserController extends Controller
             $user->remember_token = Str::random(10);
             $user->save();
             //return 'User Verified successfully';
-            return redirect()->away('http://localhost:4200/verified');
+            return redirect()->away('http://localhost:8000/verified');
         }
 
         return 'User Not verified';
