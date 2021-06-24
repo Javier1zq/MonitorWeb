@@ -267,7 +267,7 @@ class UserController extends Controller
             $user->remember_token = Str::random(10);
             $user->save();
             //return 'User Verified successfully';
-            return redirect()->away('http://localhost:8000/verified');
+            return redirect()->away('http://192.168.0.15:10200/verified');
         }
 
         return 'User Not verified';
